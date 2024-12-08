@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Linking, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Linking, TouchableOpacity, ImageBackground } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons
 
 export default function SettingsScreen() {
@@ -15,6 +15,10 @@ export default function SettingsScreen() {
   };
 
   return (
+    <ImageBackground
+        source={require("./assets/bg.jpg")} // Adjusted path
+        style={styles.backgroundImage}
+      >
     <View style={styles.container}>
       <Text style={styles.title}>App Information</Text>
       <Text style={styles.info}>
@@ -33,12 +37,12 @@ export default function SettingsScreen() {
         We take appropriate security measures to protect your data from unauthorized access, alteration, disclosure, or destruction.
       </Text>
       
-      {/* GitHub Support Section */}
       <TouchableOpacity style={styles.githubContainer} onPress={handleGithubPress}>
         <Ionicons name="logo-github" size={24} color="white" />
         <Text style={styles.githubText}> Support me on GitHub</Text>
       </TouchableOpacity>
     </View>
+    </ImageBackground>
   );
 }
 
@@ -46,9 +50,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: 'black', // Set background to black
     justifyContent: 'center', // Center content vertically
     alignItems: 'center', // Center content horizontally
+  },
+  backgroundImage: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
   },
   title: {
     fontSize: 28,
@@ -60,7 +68,7 @@ const styles = StyleSheet.create({
   info: {
     fontSize: 16,
     marginBottom: 10,
-    color: '#B0B0B0', // Softer grey for text
+    color: '#BDBDBD', // Softer grey for text
     textAlign: 'center', // Center the info text
   },
   contact: {
@@ -73,7 +81,7 @@ const styles = StyleSheet.create({
   policy: {
     fontSize: 14,
     marginTop: 20,
-    color: '#B0B0B0', // Softer grey for text
+    color: '#BDBDBD', // Softer grey for text
     textAlign: 'center', // Center the policy text
   },
   githubContainer: {
