@@ -1,7 +1,6 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
 import { Stack } from "expo-router";
-import TabsLayout from './(tabs)/_layout'; // Correct path
 
 export default function RootLayout() {
   return (

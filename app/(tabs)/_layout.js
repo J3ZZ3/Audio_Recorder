@@ -1,14 +1,22 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import AudioRecorderApp from './index'; // Your main app component
-import SettingsScreen from './settings'; // Import your settings screen
-import ProfileScreen from './profile'; // Import your profile screen
-import { Ionicons } from '@expo/vector-icons'; // Import Ionicons
+import AudioRecorderApp from './index';
+import SettingsScreen from './settings';
+import ProfileScreen from './profile';
+import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
 export default function TabsLayout() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: styles.tabBar,
+        tabBarActiveTintColor: 'black',
+        tabBarInactiveTintColor: 'grey',
+        tabBarInactiveBackgroundColor: 'black'
+      }}
+    >
       <Tab.Screen 
         name="Home"  
         component={AudioRecorderApp} 
@@ -42,3 +50,9 @@ export default function TabsLayout() {
     </Tab.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    backgroundColor: 'grey',
+  },
+});
