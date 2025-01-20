@@ -3,6 +3,7 @@ import { Audio } from 'expo-av';
 import { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { format } from 'date-fns';
+import * as Sharing from 'expo-sharing';
 
 export default function RecordingItem({ recording, onDelete, onRename }) {
   const [sound, setSound] = useState(null);
@@ -73,6 +74,21 @@ export default function RecordingItem({ recording, onDelete, onRename }) {
     );
   };
 
+  const handleBackup = async () => {
+    try {
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(recording.uri, {
+          mimeType: 'audio/m4a',
+          dialogTitle: `Share ${recording.name}`,
+          UTI: 'public.audio' // for iOS
+        });
+      }
+    } catch (error) {
+      console.error('Error sharing recording:', error);
+      Alert.alert('Error', 'Failed to share recording');
+    }
+  };
+
   const formatTime = (millis) => {
     const minutes = Math.floor(millis / 60000);
     const seconds = ((millis % 60000) / 1000).toFixed(0);
@@ -123,6 +139,9 @@ export default function RecordingItem({ recording, onDelete, onRename }) {
             color="#2f95dc" 
           />
         </TouchableOpacity>
+        <TouchableOpacity onPress={handleBackup} style={styles.button}>
+          <Ionicons name="share" size={24} color="#4CBB17" />
+        </TouchableOpacity>
         <TouchableOpacity onPress={handleDelete} style={styles.button}>
           <Ionicons name="trash" size={24} color="#ff4444" />
         </TouchableOpacity>
@@ -160,6 +179,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#2f95dc',
     paddingVertical: 4,
+    color: '#666',
   },
   date: {
     fontSize: 12,

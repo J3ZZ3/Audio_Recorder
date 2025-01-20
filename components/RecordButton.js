@@ -34,8 +34,8 @@ export default function RecordButton({ onStartRecording, onStopRecording }) {
 const styles = StyleSheet.create({
   recordButton: {
     position: 'absolute',
-    bottom: 20,
-    right: 20,
+    bottom: 0,
+    right: 0,
     backgroundColor: 'black',
     width: 56,
     height: 56,

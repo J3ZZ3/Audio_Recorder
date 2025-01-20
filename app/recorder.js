@@ -5,8 +5,9 @@ import {
     FlatList,
     ImageBackground,
     TouchableOpacity,
+    Image,
   } from "react-native";
-  import { useState, useCallback } from "react";
+  import { useState, useCallback, useEffect } from "react";
   import { StatusBar } from "expo-status-bar";
   import { useRecordings } from "../components/useRecordings";
   import RecordingItem from "../components/RecordingItem";
@@ -14,6 +15,9 @@ import {
   import BackupManager from "../components/BackupManager";
   import { Ionicons } from '@expo/vector-icons';
   import { useRouter } from 'expo-router';
+  import Tutorial from '../components/Tutorial';
+  import AsyncStorage from '@react-native-async-storage/async-storage';
+  import { useSafeAreaInsets } from 'react-native-safe-area-context';
   
   export default function AudioRecorderApp() {
     const router = useRouter();
@@ -26,7 +30,35 @@ import {
       renameRecording,
       setRecordings,
     } = useRecordings();
-  
+    const [isFirstTime, setIsFirstTime] = useState(true);
+    const [profileImage, setProfileImage] = useState(null);
+    const insets = useSafeAreaInsets();
+
+    useEffect(() => {
+      checkFirstTimeUser();
+      loadProfileImage();
+    }, []);
+
+    const checkFirstTimeUser = async () => {
+      try {
+        const hasUsedApp = await AsyncStorage.getItem('has_used_app');
+        if (hasUsedApp) {
+          setIsFirstTime(false);
+        }
+      } catch (error) {
+        console.error('Error checking first time user:', error);
+      }
+    };
+
+    const handleTutorialComplete = async () => {
+      try {
+        await AsyncStorage.setItem('has_used_app', 'true');
+        setIsFirstTime(false);
+      } catch (error) {
+        console.error('Error saving first time user status:', error);
+      }
+    };
+
     const handleRestoreComplete = (restoredRecordings) => {
       setRecordings([...recordings, ...restoredRecordings]);
     };
@@ -45,26 +77,50 @@ import {
       ),
       [deleteRecording, renameRecording]
     );
-  
+
+    const loadProfileImage = async () => {
+      try {
+        const savedImage = await AsyncStorage.getItem('profileImage');
+        if (savedImage) {
+          setProfileImage(savedImage);
+        }
+      } catch (error) {
+        console.error('Error loading profile image:', error);
+      }
+    };
+
     return (
       <>
-        <StatusBar style="dark" translucent={true} />
+        <StatusBar style="light" />
         <ImageBackground
           source={require("../assets/images/bg.jpg")}
           style={styles.backgroundImage}
         >
-          <View style={styles.container}>
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search recordings..."
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-            />
-            
-            <BackupManager 
-              recordings={recordings}
-              onRestoreComplete={handleRestoreComplete}
-            />
+          <View style={[
+            styles.container,
+            { paddingTop: insets.top }
+          ]}>
+            <View style={styles.header}>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search recordings..."
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+              />
+              <TouchableOpacity 
+                style={styles.profileButton}
+                onPress={() => router.push('/profile')}
+              >
+                {profileImage ? (
+                  <Image 
+                    source={{ uri: profileImage }} 
+                    style={styles.profileImage} 
+                  />
+                ) : (
+                  <Ionicons name="person" size={24} color="white" />
+                )}
+              </TouchableOpacity>
+            </View>
 
             <FlatList
               data={filteredRecordings}
@@ -73,19 +129,15 @@ import {
               style={styles.list}
             />
             
-            <RecordButton
-              onStartRecording={startRecording}
-              onStopRecording={stopRecording}
-            />
+            <View style={styles.controlsContainer}>
+              <BackupManager recordings={recordings} onRestoreComplete={handleRestoreComplete} />
+              <RecordButton
+                onStartRecording={startRecording}
+                onStopRecording={stopRecording}
+              />
+            </View>
             
             <View style={styles.fabContainer}>
-              <TouchableOpacity 
-                style={styles.fab}
-                onPress={() => router.push('/profile')}
-              >
-                <Ionicons name="person" size={24} color="white" />
-              </TouchableOpacity>
-              
               <TouchableOpacity 
                 style={styles.fab}
                 onPress={() => router.push('/settings')}
@@ -95,6 +147,11 @@ import {
             </View>
           </View>
         </ImageBackground>
+        
+        <Tutorial 
+          visible={isFirstTime} 
+          onClose={handleTutorialComplete} 
+        />
       </>
     );
   }
@@ -110,17 +167,52 @@ import {
       backgroundColor: "rgba(255, 255, 255, 0.2)",
       paddingTop: 20,
     },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 12,
+      paddingTop: 20,
+      gap: 12,
+    },
     searchInput: {
+      flex: 1,
       height: 40,
-      margin: 12,
       borderWidth: 1,
       padding: 10,
       borderRadius: 8,
       borderColor: "#ddd",
     },
+    profileButton: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      elevation: 4,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      overflow: 'hidden',
+    },
+    profileImage: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 20,
+    },
     list: {
       flex: 1,
       paddingHorizontal: 12,
+    },
+    controlsContainer: {
+      position: 'absolute',
+      bottom: 20,
+      right: 20,
+      alignItems: 'center',
     },
     fabContainer: {
       position: 'absolute',

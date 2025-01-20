@@ -36,7 +36,6 @@ export function useRecordings() {
       if (storedRecordings) {
         setRecordings(JSON.parse(storedRecordings));
       }
-      // Try to sync with cloud if user is logged in
       if (user) {
         await syncFromCloud();
       }
@@ -67,7 +66,6 @@ export function useRecordings() {
       
       if (error) throw error;
       
-      // Store metadata in database
       const { error: dbError } = await supabase
         .from('recordings')
         .insert([
@@ -90,7 +88,6 @@ export function useRecordings() {
     
     try {
       setSyncing(true);
-      // Get metadata from database
       const { data, error } = await supabase
         .from('recordings')
         .select('*')
@@ -98,7 +95,6 @@ export function useRecordings() {
       
       if (error) throw error;
 
-      // Download each recording
       for (const record of data) {
         const { data: fileData, error: downloadError } = await supabase.storage
           .from('recordings')
@@ -106,13 +102,11 @@ export function useRecordings() {
         
         if (downloadError) throw downloadError;
 
-        // Save to local filesystem
         const localUri = FileSystem.documentDirectory + record.id + '.m4a';
         await FileSystem.writeAsStringAsync(localUri, fileData, {
           encoding: FileSystem.EncodingType.Base64,
         });
 
-        // Update recordings array
         const newRecording = {
           id: record.id,
           uri: localUri,
@@ -162,7 +156,6 @@ export function useRecordings() {
       const newRecordings = [...recordings, newRecording];
       await saveRecordings(newRecordings);
       
-      // Backup to cloud if user is logged in
       if (user) {
         await backupToCloud(uri, id);
       }
@@ -181,7 +174,6 @@ export function useRecordings() {
         const newRecordings = recordings.filter(r => r.id !== id);
         await saveRecordings(newRecordings);
 
-        // Delete from cloud if user is logged in
         if (user) {
           await supabase.storage
             .from('recordings')
@@ -205,7 +197,6 @@ export function useRecordings() {
       );
       await saveRecordings(newRecordings);
 
-      // Update name in cloud if user is logged in
       if (user) {
         await supabase
           .from('recordings')

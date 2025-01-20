@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, Linking, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Import Ionicons
+import { Ionicons } from '@expo/vector-icons';
 
 export default function SettingsScreen() {
-  const supportEmail = "Jesse.mashoana@gmail.com"; // Replace with your support email
-  const githubUrl = "https://github.com/J3ZZ3"; // Replace with your GitHub URL
+  const supportEmail = "Jesse.mashoana@gmail.com";
+  const githubUrl = "https://github.com/J3ZZ3";
 
   const handleEmailPress = () => {
     Linking.openURL(`mailto:${supportEmail}`);
@@ -33,7 +33,7 @@ export default function SettingsScreen() {
         We take appropriate security measures to protect your data from unauthorized access, alteration, disclosure, or destruction.
       </Text>
       
-      {/* GitHub Support Section */}
+      {}
       <TouchableOpacity style={styles.githubContainer} onPress={handleGithubPress}>
         <Ionicons name="logo-github" size={24} color="white" />
         <Text style={styles.githubText}> Support me on GitHub</Text>
@@ -46,45 +46,45 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: 'black', // Set background to black
-    justifyContent: 'center', // Center content vertically
-    alignItems: 'center', // Center content horizontally
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     fontSize: 28,
-    fontWeight: '600', // Use a lighter font weight for a modern feel
+    fontWeight: '600',
     marginBottom: 15,
-    color: '#FFFFFF', // White color for contrast
-    textAlign: 'center', // Center the title text
+    color: '#FFFFFF',
+    textAlign: 'center',
   },
   info: {
     fontSize: 16,
     marginBottom: 10,
-    color: '#B0B0B0', // Softer grey for text
-    textAlign: 'center', // Center the info text
+    color: '#B0B0B0',
+    textAlign: 'center',
   },
   contact: {
     fontSize: 16,
-    color: '#1E90FF', // Bright blue for visibility
+    color: '#1E90FF',
     textDecorationLine: 'underline',
     marginTop: 10,
-    textAlign: 'center', // Center the contact text
+    textAlign: 'center',
   },
   policy: {
     fontSize: 14,
     marginTop: 20,
-    color: '#B0B0B0', // Softer grey for text
-    textAlign: 'center', // Center the policy text
+    color: '#B0B0B0',
+    textAlign: 'center',
   },
   githubContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 30,
-    justifyContent: 'center', // Center the GitHub section
+    justifyContent: 'center',
   },
   githubText: {
     fontSize: 16,
-    color: '#FFFFFF', // White color for contrast
-    marginLeft: 8, // Space between icon and text
+    color: '#FFFFFF',
+    marginLeft: 8,
   },
 });

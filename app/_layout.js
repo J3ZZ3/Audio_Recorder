@@ -5,6 +5,7 @@ import { AuthProvider } from '../components/auth/AuthContext';
 import { useEffect } from 'react';
 import { useRouter, useSegments } from "expo-router";
 import { useAuth } from '../components/auth/AuthContext';
+import { SettingsProvider } from '../components/settings/SettingsContext';
 
 function RootLayoutNav() {
   const { user, loading } = useAuth();
@@ -35,9 +36,11 @@ function RootLayoutNav() {
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <RootLayoutNav />
-    </AuthProvider>
+    <SettingsProvider>
+      <AuthProvider>
+        <RootLayoutNav />
+      </AuthProvider>
+    </SettingsProvider>
   );
 }
 
