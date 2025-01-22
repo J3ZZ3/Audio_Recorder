@@ -25,12 +25,6 @@ ProRec is a feature-rich voice recording application built with React Native and
 - Search functionality
 - Sort by date/name
 
-### ☁️ Cloud Features
-- Automatic cloud backup (requires account)
-- Cross-device sync
-- Secure storage with Supabase
-- Offline support
-
 ### 🔒 Security
 - End-to-end encryption
 - Secure authentication
