@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, Linking, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Tutorial from '../components/Tutorial';
+import { useState } from 'react';
 
 export default function SettingsScreen() {
+  const [showTutorial, setShowTutorial] = useState(false);
   const supportEmail = "Jesse.mashoana@gmail.com";
   const githubUrl = "https://github.com/J3ZZ3";
 
@@ -38,6 +41,18 @@ export default function SettingsScreen() {
         <Ionicons name="logo-github" size={24} color="white" />
         <Text style={styles.githubText}> Support me on GitHub</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity 
+        style={styles.tutorialFab}
+        onPress={() => setShowTutorial(true)}
+      >
+        <Ionicons name="help-circle" size={24} color="white" />
+      </TouchableOpacity>
+
+      <Tutorial 
+        visible={showTutorial} 
+        onClose={() => setShowTutorial(false)} 
+      />
     </View>
   );
 }
@@ -86,5 +101,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
     marginLeft: 8,
+  },
+  tutorialFab: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#4285F4',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
 });

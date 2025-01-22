@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TUTORIAL_STEPS = [
   {
@@ -29,13 +28,8 @@ const TUTORIAL_STEPS = [
 export default function Tutorial({ visible, onClose }) {
   const [currentStep, setCurrentStep] = useState(0);
 
-  const handleSkip = async () => {
-    try {
-      await AsyncStorage.setItem('has_used_app', 'true');
-      onClose();
-    } catch (error) {
-      console.error('Error saving app usage status:', error);
-    }
+  const handleSkip = () => {
+    onClose();
   };
 
   const handleNext = () => {

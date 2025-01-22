@@ -15,8 +15,6 @@ import {
   import BackupManager from "../components/BackupManager";
   import { Ionicons } from '@expo/vector-icons';
   import { useRouter } from 'expo-router';
-  import Tutorial from '../components/Tutorial';
-  import AsyncStorage from '@react-native-async-storage/async-storage';
   import { useSafeAreaInsets } from 'react-native-safe-area-context';
   
   export default function AudioRecorderApp() {
@@ -30,34 +28,12 @@ import {
       renameRecording,
       setRecordings,
     } = useRecordings();
-    const [isFirstTime, setIsFirstTime] = useState(true);
     const [profileImage, setProfileImage] = useState(null);
     const insets = useSafeAreaInsets();
 
     useEffect(() => {
-      checkFirstTimeUser();
       loadProfileImage();
     }, []);
-
-    const checkFirstTimeUser = async () => {
-      try {
-        const hasUsedApp = await AsyncStorage.getItem('has_used_app');
-        if (hasUsedApp) {
-          setIsFirstTime(false);
-        }
-      } catch (error) {
-        console.error('Error checking first time user:', error);
-      }
-    };
-
-    const handleTutorialComplete = async () => {
-      try {
-        await AsyncStorage.setItem('has_used_app', 'true');
-        setIsFirstTime(false);
-      } catch (error) {
-        console.error('Error saving first time user status:', error);
-      }
-    };
 
     const handleRestoreComplete = (restoredRecordings) => {
       setRecordings([...recordings, ...restoredRecordings]);
@@ -147,11 +123,6 @@ import {
             </View>
           </View>
         </ImageBackground>
-        
-        <Tutorial 
-          visible={isFirstTime} 
-          onClose={handleTutorialComplete} 
-        />
       </>
     );
   }

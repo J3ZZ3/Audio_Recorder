@@ -1,69 +1,97 @@
-# ProRec
+# ProRec - Professional Voice Recorder App
 
-ProRec is a professional voice recording application built with React Native and Expo. It allows users to record, manage, and share audio recordings seamlessly.
+ProRec is a feature-rich voice recording application built with React Native and Expo. It offers high-quality audio recording capabilities with cloud backup support through Supabase.
+
+![ProRec Banner](assets/images/banner.png)
 
 ## Features
 
-- **Record Audio**: Start and stop recordings with a simple tap.
-- **Manage Recordings**: Rename, share, or delete recordings.
-- **Backup & Restore**: Keep your recordings safe by backing them up and restoring them when needed.
-- **User Authentication**: Sign up and sign in using secure authentication methods.
-- **Settings**: Customize app settings, including notification preferences and recording quality.
+### 🎙️ Professional Recording
+- High-quality audio recording with adjustable settings
+- Background recording support
+- Real-time audio visualization
+- Multiple audio format support
+
+### 📱 Modern UI/UX
+- Clean, intuitive interface
+- Dark mode support
+- Interactive tutorial for new users
+- Gesture-based controls
+
+### 💾 Recording Management
+- Rename recordings
+- Share recordings
+- Delete recordings
+- Search functionality
+- Sort by date/name
+
+### ☁️ Cloud Features
+- Automatic cloud backup (requires account)
+- Cross-device sync
+- Secure storage with Supabase
+- Offline support
+
+### 🔒 Security
+- End-to-end encryption
+- Secure authentication
+- Private storage
+- Local backup/restore
+
+## Screenshots
+
+<div style="display: flex; gap: 10px;">
+    <img src="assets/images/screenshot-login.jpg" width="200" alt="Login Screen">
+    <img src="assets/images/screenshot-recorder.jpg" width="200" alt="Recorder Screen">
+    <img src="assets/images/screenshot-list.jpg" width="200" alt="Recordings List">
+    <img src="assets/images/screenshot-profile.jpg" width="200" alt="Profile Screen">
+</div>
+
+## Technology Stack
+
+- React Native
+- Expo
+- Supabase (Backend & Authentication)
+- AsyncStorage
+- Expo AV
+- Expo File System
+- React Navigation
 
 ## Installation
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/J3ZZ3/Audio_Recorder
-   cd prorec
-   ```
+```bash
+git clone https://github.com/J3ZZ3/Audio_Recorder.git
+```
 
 2. Install dependencies:
-   ```bash
-   npm install
-   ```
+```bash
+cd Audio_Recorder
+npm install
+```
 
-3. Set up environment variables:
-   - Create a `.env` file in the root directory and add your Supabase URL and Anon Key:
-     ```
-     EXPO_PUBLIC_SUPABASE_URL=your_supabase_url
-     EXPO_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-     ```
+3. Create a `.env` file in the root directory with your Supabase credentials:
+```
+EXPO_PUBLIC_SUPABASE_URL=your_supabase_url
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
 4. Start the development server:
-   ```bash
-   npm start
-   ```
+```bash
+npm start
+```
 
-## Usage
 
-- Launch the app on your device or emulator.
-- Sign up or log in to your account.
-- Use the record button to start and stop recordings.
-- Manage your recordings from the main screen.
+## Contact
 
-## Screenshots
+Jesse Mashoana - Jesse.mashoana@gmail.com
 
-![Screenshot 1](path/to/screenshot1.png)
-*Description of Screenshot 1*
-
-![Screenshot 2](path/to/screenshot2.png)
-*Description of Screenshot 2*
-
-![Screenshot 3](path/to/screenshot3.png)
-*Description of Screenshot 3*
-
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Project Link: [https://github.com/J3ZZ3/prorec](https://github.com/J3ZZ3/prorec)
 
 ## Acknowledgments
 
-- [Expo](https://expo.dev/) for providing a great framework for building React Native apps.
-- [Supabase](https://supabase.io/) for backend services.
+- [Expo](https://expo.dev/)
+- [Supabase](https://supabase.io/)
+- [React Native](https://reactnative.dev/)
+
 
 

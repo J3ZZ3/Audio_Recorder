@@ -14,33 +14,75 @@ export function useRecordings() {
   const { user } = useAuth();
 
   useEffect(() => {
-    loadRecordings();
-    setupAudio();
-  }, []);
-
-  async function setupAudio() {
-    try {
-      await Audio.requestPermissionsAsync();
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: true,
-        playsInSilentModeIOS: true,
-      });
-    } catch (error) {
-      console.error('Error setting up audio:', error);
+    if (user) {
+      loadRecordings();
+    } else {
+      clearLocalRecordings();
     }
-  }
+  }, [user]);
+
+  const clearLocalRecordings = async () => {
+    try {
+      await AsyncStorage.removeItem(RECORDINGS_KEY);
+      setRecordings([]);
+      
+      const recordingsDir = FileSystem.documentDirectory;
+      const files = await FileSystem.readDirectoryAsync(recordingsDir);
+      
+      for (const file of files) {
+        if (file.endsWith('.m4a')) {
+          await FileSystem.deleteAsync(`${recordingsDir}${file}`);
+        }
+      }
+    } catch (error) {
+      console.error('Error clearing local recordings:', error);
+    }
+  };
 
   async function loadRecordings() {
     try {
-      const storedRecordings = await AsyncStorage.getItem(RECORDINGS_KEY);
-      if (storedRecordings) {
-        setRecordings(JSON.parse(storedRecordings));
+      if (!user) return;
+
+      setSyncing(true);
+      
+      await clearLocalRecordings();
+
+      const { data, error } = await supabase
+        .from('recordings')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      const loadedRecordings = [];
+
+      for (const record of data) {
+        const { data: fileData, error: downloadError } = await supabase.storage
+          .from('recordings')
+          .download(record.file_path);
+
+        if (downloadError) continue;
+
+        const localUri = `${FileSystem.documentDirectory}${record.id}.m4a`;
+        await FileSystem.writeAsStringAsync(localUri, fileData, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+
+        loadedRecordings.push({
+          id: record.id,
+          uri: localUri,
+          name: record.name || `Recording ${loadedRecordings.length + 1}`,
+          date: new Date(record.created_at),
+        });
       }
-      if (user) {
-        await syncFromCloud();
-      }
+
+      await AsyncStorage.setItem(RECORDINGS_KEY, JSON.stringify(loadedRecordings));
+      setRecordings(loadedRecordings);
     } catch (error) {
       console.error('Error loading recordings:', error);
+    } finally {
+      setSyncing(false);
     }
   }
 
@@ -131,12 +173,17 @@ export function useRecordings() {
 
   async function startRecording() {
     try {
+      if (!user) {
+        throw new Error('Please login to record');
+      }
+
       const newRecording = new Audio.Recording();
       await newRecording.prepareToRecordAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
       await newRecording.startAsync();
       setRecording(newRecording);
     } catch (error) {
       console.error('Error starting recording:', error);
+      throw error;
     }
   }
 
@@ -168,22 +215,23 @@ export function useRecordings() {
 
   async function deleteRecording(id) {
     try {
+      if (!user) return;
+
       const recording = recordings.find(r => r.id === id);
       if (recording) {
         await FileSystem.deleteAsync(recording.uri);
         const newRecordings = recordings.filter(r => r.id !== id);
-        await saveRecordings(newRecordings);
+        await AsyncStorage.setItem(RECORDINGS_KEY, JSON.stringify(newRecordings));
+        setRecordings(newRecordings);
 
-        if (user) {
-          await supabase.storage
-            .from('recordings')
-            .remove([`${user.id}/${id}.m4a`]);
-          
-          await supabase
-            .from('recordings')
-            .delete()
-            .match({ id, user_id: user.id });
-        }
+        await supabase.storage
+          .from('recordings')
+          .remove([`${user.id}/${id}.m4a`]);
+        
+        await supabase
+          .from('recordings')
+          .delete()
+          .match({ id, user_id: user.id });
       }
     } catch (error) {
       console.error('Error deleting recording:', error);
@@ -216,6 +264,7 @@ export function useRecordings() {
     deleteRecording,
     renameRecording,
     syncing,
-    syncFromCloud,
+    syncFromCloud: loadRecordings,
+    clearLocalRecordings,
   };
 }
