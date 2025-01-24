@@ -25,8 +25,8 @@ This is an audio recording application built with React Native and Expo. It allo
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone https://github.com/J3ZZ3/Audio_Recorder
+   cd Audio_Recorder
    ```
 
 2. Install dependencies:
@@ -34,9 +34,9 @@ This is an audio recording application built with React Native and Expo. It allo
    npm install
    ```
 
-3. Start the development server:
+3. Run project using expo go:
    ```bash
-   npm start
+   npx expo start
    ```
 
 4. Open the app in an Expo Go app on your mobile device or an emulator.
