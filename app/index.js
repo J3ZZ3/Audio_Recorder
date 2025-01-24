@@ -7,9 +7,9 @@ import {
   } from "react-native";
   import { useState, useCallback } from "react";
   import { StatusBar } from "expo-status-bar";
-  import { useRecordings } from "../../components/useRecordings"; // Adjusted path
-  import RecordingItem from "../../components/RecordingItem"; // Adjusted path
-  import RecordButton from "../../components/RecordButton"; // Adjusted path
+  import { useRecordings } from "../components/useRecordings"; // Adjusted path
+  import RecordingItem from "../components/RecordingItem"; // Adjusted path
+  import RecordButton from "../components/RecordButton"; // Adjusted path
   
   export default function AudioRecorderApp() {
     const [searchQuery, setSearchQuery] = useState("");
