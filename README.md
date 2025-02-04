@@ -34,7 +34,7 @@ ProRec is a feature-rich voice recording application built with React Native and
 ## Screenshots
 
 <div style="display: flex; gap: 10px;">
-    <img src="https://raw.githubusercontent.com/J3ZZ3/Audio_Recorder/main/assets/images/screenshot-login.jpg" width="200" alt="Login Screen">
+    <img src="https://github.com/J3ZZ3/Documentation-Assets/blob/main/Audio%20Recorder/screenshot-login.jpg" width="200" alt="Login Screen">
     <img src="https://github.com/J3ZZ3/Documentation-Assets/blob/main/Audio%20Recorder/screenshot-recorder.jpg" width="200" alt="Recorder Screen">
     <img src="https://github.com/J3ZZ3/Documentation-Assets/blob/main/Audio%20Recorder/screenshot-list.jpg" width="200" alt="Recordings List">
     <img src="https://github.com/J3ZZ3/Documentation-Assets/blob/main/Audio%20Recorder/screenshot-profile.jpg" width="200" alt="Profile Screen">
