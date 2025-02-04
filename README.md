@@ -2,7 +2,7 @@
 
 ProRec is a feature-rich voice recording application built with React Native and Expo. It offers high-quality audio recording capabilities with cloud backup support through Supabase.
 
-![ProRec Banner](assets/images/banner.png)
+![ProRec Banner](https://github.com/J3ZZ3/Documentation-Assets/blob/main/Audio%20Recorder/banner.png))
 
 ## Features
 
@@ -34,10 +34,10 @@ ProRec is a feature-rich voice recording application built with React Native and
 ## Screenshots
 
 <div style="display: flex; gap: 10px;">
-    <img src="assets/images/screenshot-login.jpg" width="200" alt="Login Screen">
-    <img src="assets/images/screenshot-recorder.jpg" width="200" alt="Recorder Screen">
-    <img src="assets/images/screenshot-list.jpg" width="200" alt="Recordings List">
-    <img src="assets/images/screenshot-profile.jpg" width="200" alt="Profile Screen">
+    <img src="https://raw.githubusercontent.com/J3ZZ3/Audio_Recorder/main/assets/images/screenshot-login.jpg" width="200" alt="Login Screen">
+    <img src="https://github.com/J3ZZ3/Documentation-Assets/blob/main/Audio%20Recorder/screenshot-recorder.jpg" width="200" alt="Recorder Screen">
+    <img src="https://github.com/J3ZZ3/Documentation-Assets/blob/main/Audio%20Recorder/screenshot-list.jpg" width="200" alt="Recordings List">
+    <img src="https://github.com/J3ZZ3/Documentation-Assets/blob/main/Audio%20Recorder/screenshot-profile.jpg" width="200" alt="Profile Screen">
 </div>
 
 ## Technology Stack
